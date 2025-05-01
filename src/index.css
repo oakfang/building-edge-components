@@ -17,10 +17,6 @@
   --color-primary-foreground: var(--color-white);
 }
 
-@utility justify-self-anchor-center {
-  justify-self: anchor-center;
-}
-
 @layer base {
   :root {
     color-scheme: light dark;

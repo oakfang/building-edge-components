@@ -109,6 +109,7 @@ export const ConfirmationDialog: FunctionComponent<
 > = ({ onClose, onYes, onNo, ...props }) => {
   return (
     <Dialog
+      role="alertdialog"
       {...props}
       onClose={(e) => {
         if (e.currentTarget.returnValue === YES) onYes?.();

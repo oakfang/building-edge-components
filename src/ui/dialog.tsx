@@ -63,7 +63,7 @@ export const dialog = cva({
     },
     animation: {
       unset: null,
-      pop: "opacity-0 scale-95 open:opacity-100 open:scale-100 starting:open:!opacity-0 starting:open:!scale-95",
+      pop: "opacity-0 scale-95 open:opacity-100 open:scale-100 starting:open:opacity-0 starting:open:scale-95",
     },
   },
   compoundVariants: [

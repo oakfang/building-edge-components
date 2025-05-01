@@ -32,6 +32,7 @@ class TooltipTrigger {
   }
 
   trigger(onActive: () => void) {
+    clearTimeout(this.#tid);
     if (this.#isActive) return onActive();
     this.ping();
     this.#tid = window.setTimeout(() => {
@@ -42,7 +43,7 @@ class TooltipTrigger {
   }
 
   release() {
-    if (!this.#isActive) {
+    if (!this.#isActive || this.#tid !== INACTIVE) {
       clearTimeout(this.#tid);
       this.#tid = INACTIVE;
       return;
@@ -113,11 +114,12 @@ export const Trigger: FunctionComponent<
       aria-describedby={tooltipId}
       onFocus={(e) => showTooltip(e.currentTarget, "focus")}
       onBlur={() => hideTooltip("focus")}
-      onMouseOver={(e) => {
-        const tooltip = e.currentTarget;
-        timer.trigger(() => showTooltip(tooltip, "hover"));
+      onPointerOver={(e) => {
+        if (e.pointerType === "touch") return;
+        const tooltipTrigger = e.currentTarget;
+        timer.trigger(() => showTooltip(tooltipTrigger, "hover"));
       }}
-      onMouseLeave={(e) => {
+      onPointerLeave={(e) => {
         if (e.relatedTarget === getTooltip()) return;
         timer.release();
         hideTooltip("hover");
@@ -139,8 +141,8 @@ export const Tooltip: FunctionComponent<
       id={tooltipId}
       role="tooltip"
       popover={"hint" as HTMLAttributes<unknown>["popover"]}
-      onMouseEnter={() => timer.ping()}
-      onMouseLeave={(e) => {
+      onPointerEnter={() => timer.ping()}
+      onPointerLeave={(e) => {
         const tooltip = e.currentTarget as HTMLElement;
         if (CAUSES.get(tooltip) === "hover") {
           timer.release();

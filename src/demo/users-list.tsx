@@ -32,7 +32,7 @@ export function UsersList({
                     <TrashIcon />
                   </Dialog.ShowModal>
                 </Tooltip.Trigger>
-                <Tooltip.Tooltip>
+                <Tooltip.Tooltip placement="inline:start">
                   Delete "{user.name}"
                 </Tooltip.Tooltip>
                 <Dialog.ConfirmationDialog onYes={() => deleteUser(user.id)}>
