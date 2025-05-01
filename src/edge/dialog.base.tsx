@@ -3,6 +3,9 @@ import { type ComponentProps, type FunctionComponent, useState } from "react";
 import { identifierFor, useIdentifier } from "./utils";
 
 const DIALOG_FEATURE = Symbol("dialog");
+const YES = "y";
+const NO = "n";
+
 export const Root = identifierFor(DIALOG_FEATURE);
 
 export const Command: FunctionComponent<
@@ -38,11 +41,11 @@ export const Close: FunctionComponent<
 
 export const Yes: FunctionComponent<
   Omit<ComponentProps<typeof Command>, "cmd" | "value">
-> = (props) => <Command cmd="close" value="yes" {...props} />;
+> = (props) => <Command cmd="close" value={YES} {...props} />;
 
 export const No: FunctionComponent<
   Omit<ComponentProps<typeof Command>, "cmd" | "value">
-> = (props) => <Command cmd="close" value="no" {...props} />;
+> = (props) => <Command cmd="close" value={NO} {...props} />;
 
 const dialogTitle = (id: string) => `${id}--title`;
 const dialogDescription = (id: string) => `${id}--description`;
@@ -59,12 +62,10 @@ export const Dialog: FunctionComponent<
       {...props}
       id={id}
       popover="auto"
+      closedby="any"
       onClose={(e) => {
         if (resetOnClose) setVersion((v) => v + 1);
         onClose?.(e);
-      }}
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) e.currentTarget.close();
       }}
       aria-labelledby={dialogTitle(id)}
       aria-describedby={dialogDescription(id)}
@@ -103,7 +104,7 @@ export const ConfirmationDialog: FunctionComponent<
     <Dialog
       {...props}
       onClose={(e) => {
-        if (e.currentTarget.returnValue === "yes") onYes?.();
+        if (e.currentTarget.returnValue === YES) onYes?.();
         else onNo?.();
         onClose?.(e);
       }}

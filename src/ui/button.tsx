@@ -15,7 +15,7 @@ export const button = cva({
       clear: "hover:text-primary focus-visible:text-primary",
     },
     size: {
-      normal: "rounded p-2 sm:min-w-36",
+      normal: "rounded p-2 md:min-w-36",
       icon: "rounded-sm p-1 aspect-square",
     },
   },

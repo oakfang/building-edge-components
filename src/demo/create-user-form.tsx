@@ -1,39 +1,28 @@
-import * as Dialog from "@/edge/dialog.base";
+import * as Dialog from "@/ui/dialog";
 import { Identified, IdentifierProvider, identifierFor } from "@/edge/utils";
 import { NewUser } from "@/models/user";
 import { Button } from "@/ui/button";
-import { XIcon } from "lucide-react";
 
 const FORM_FEATURE = Symbol("form");
 const FormProvider = identifierFor(FORM_FEATURE);
 
-export function CreateUserForm({ addUser }: { addUser: (user: NewUser) => void }) {
+export function CreateUserForm({
+  addUser,
+}: {
+  addUser: (user: NewUser) => void;
+}) {
   return (
     <FormProvider>
       <Dialog.Root>
-        <Dialog.ShowModal asChild>
-          <Button>Add Entry</Button>
-        </Dialog.ShowModal>
-        <Dialog.Dialog
-          className="bg-elevated md:min-w-lg m-auto flex-col gap-5 p-5 rounded-xl shaodw-lg open:flex text-start backdrop:bg-transparent backdrop:backdrop-brightness-50"
-          onSubmit={(e) => e.currentTarget.close()}
-        >
-          <header className="flex items-center justify-between">
-            <Dialog.DialogTitle className="text-xl font-semibold">
-              Create New Entry
-            </Dialog.DialogTitle>
-            <Dialog.Close asChild>
-              <Button intent="clear" size="icon" aria-label="Close">
-                <XIcon />
-              </Button>
-            </Dialog.Close>
-          </header>
+        <Dialog.ShowModal>Add Entry</Dialog.ShowModal>
+        <Dialog.Dialog size="xl" onSubmit={(e) => e.currentTarget.close()}>
+          <Dialog.DialogHeader>Create New Entry</Dialog.DialogHeader>
           <Dialog.DialogDescription>
             This is a sample form for creating a new entry.
           </Dialog.DialogDescription>
           <Identified feature={FORM_FEATURE}>
             <form
-              className="flex flex-col gap-5"
+              className="flex flex-col gap-[inherit]"
               action={(formData) => {
                 const name = formData.get("name") as string;
                 const newUser = NewUser.parse({ name });
@@ -60,14 +49,12 @@ export function CreateUserForm({ addUser }: { addUser: (user: NewUser) => void }
               </IdentifierProvider>
             </form>
           </Identified>
-          <footer className="flex justify-end items-center gap-5">
-            <Dialog.Close asChild>
-              <Button intent="outline">Cancel</Button>
-            </Dialog.Close>
+          <Dialog.DialogFooter>
+            <Dialog.Close intent="outline">Cancel</Dialog.Close>
             <Identified feature={FORM_FEATURE} prop="form">
               <Button type="submit">Save</Button>
             </Identified>
-          </footer>
+          </Dialog.DialogFooter>
         </Dialog.Dialog>
       </Dialog.Root>
     </FormProvider>

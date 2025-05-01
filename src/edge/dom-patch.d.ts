@@ -12,6 +12,9 @@ declare module "react" {
   interface HTMLAttributes<T> {
     popover?: "auto" | "manual" | "hint" | "";
   }
+  interface DialogHTMLAttributes<T> extends HTMLAttributes<T> {
+    closedby?: "any" | "closerrequest" | "none";
+  }
   interface ButtonHTMLAttributes<T> extends HTMLAttributes<T> {
     commandfor?: string;
     command?: ValidCommand;

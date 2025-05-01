@@ -1,7 +1,6 @@
-import * as Dialog from "@/edge/dialog.base";
-import * as Tooltip from "@/edge/tooltip.base";
+import * as Dialog from "@/ui/dialog";
+import * as Tooltip from "@/ui/tooltip";
 import type { EphemeralUser } from "@/models/user";
-import { Button } from "@/ui/button";
 import { TrashIcon, XIcon } from "lucide-react";
 
 export function UsersList({
@@ -23,47 +22,29 @@ export function UsersList({
             </span>
             <Tooltip.Root>
               <Dialog.Root>
-                <Dialog.ShowModal asChild>
-                  <Tooltip.Trigger asChild>
-                    <Button
-                      intent="clear"
-                      size="icon"
-                      aria-label="Delete"
-                      disabled={user.isEphemeral}
-                    >
-                      <TrashIcon />
-                    </Button>
-                  </Tooltip.Trigger>
-                </Dialog.ShowModal>
-                <Tooltip.Tooltip className="justify-self-anchor-center absolute inset-[unset] bottom-[anchor(top)] [position-try-fallbacks:flip-block] bg-elevated shadow-sm px-2 py-1 rounded">
+                <Tooltip.Trigger asChild>
+                  <Dialog.ShowModal
+                    intent="clear"
+                    size="icon"
+                    aria-label="Delete"
+                    disabled={user.isEphemeral}
+                  >
+                    <TrashIcon />
+                  </Dialog.ShowModal>
+                </Tooltip.Trigger>
+                <Tooltip.Tooltip>
                   Delete "{user.name}"
                 </Tooltip.Tooltip>
-                <Dialog.ConfirmationDialog
-                  className="bg-elevated md:min-w-lg m-auto flex-col gap-3 p-3 rounded-md shaodw-md open:flex text-start backdrop:bg-transparent backdrop:backdrop-brightness-50"
-                  onYes={() => deleteUser(user.id)}
-                >
-                  <header className="flex items-center justify-between">
-                    <Dialog.DialogTitle className="text-xl font-semibold">
-                      Are you sure?
-                    </Dialog.DialogTitle>
-                    <Dialog.Close asChild>
-                      <Button intent="clear" size="icon" aria-label="Close">
-                        <XIcon />
-                      </Button>
-                    </Dialog.Close>
-                  </header>
+                <Dialog.ConfirmationDialog onYes={() => deleteUser(user.id)}>
+                  <Dialog.DialogHeader>Are you sure?</Dialog.DialogHeader>
                   <Dialog.DialogDescription>
                     Deleting a user is irreversible. Are you sure you want to
                     delete the user entry for "{user.name}"?
                   </Dialog.DialogDescription>
-                  <footer className="flex justify-end items-center gap-5">
-                    <Dialog.No asChild>
-                      <Button intent="outline">No</Button>
-                    </Dialog.No>
-                    <Dialog.Yes asChild>
-                      <Button intent="risky">Yes</Button>
-                    </Dialog.Yes>
-                  </footer>
+                  <Dialog.DialogFooter>
+                    <Dialog.No intent="outline">No</Dialog.No>
+                    <Dialog.Yes intent="risky">Yes</Dialog.Yes>
+                  </Dialog.DialogFooter>
                 </Dialog.ConfirmationDialog>
               </Dialog.Root>
             </Tooltip.Root>
