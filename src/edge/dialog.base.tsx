@@ -1,5 +1,10 @@
 import { Root as Slot } from "@radix-ui/react-slot";
-import { type ComponentProps, type FunctionComponent, useState } from "react";
+import {
+  type ComponentProps,
+  Fragment,
+  type FunctionComponent,
+  useState,
+} from "react";
 import { identifierFor, useIdentifier } from "./utils";
 
 const DIALOG_FEATURE = Symbol("dialog");
@@ -52,13 +57,12 @@ const dialogDescription = (id: string) => `${id}--description`;
 
 export const Dialog: FunctionComponent<
   ComponentProps<"dialog"> & { resetOnClose?: boolean }
-> = ({ resetOnClose = true, onClose, ...props }) => {
+> = ({ resetOnClose = true, onClose, children, ...props }) => {
   const id = useIdentifier(DIALOG_FEATURE);
   const [version, setVersion] = useState(0);
 
   return (
     <dialog
-      key={version}
       {...props}
       id={id}
       popover="auto"
@@ -67,9 +71,12 @@ export const Dialog: FunctionComponent<
         if (resetOnClose) setVersion((v) => v + 1);
         onClose?.(e);
       }}
+      onTransitionStart={() => console.log("start")}
       aria-labelledby={dialogTitle(id)}
       aria-describedby={dialogDescription(id)}
-    />
+    >
+      <Fragment key={version}>{children}</Fragment>
+    </dialog>
   );
 };
 

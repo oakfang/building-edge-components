@@ -61,29 +61,38 @@ export const dialog = cva({
     backdrop: {
       darken: "backdrop:bg-transparent backdrop:backdrop-brightness-50",
     },
+    animation: {
+      unset: null,
+      pop: "opacity-0 scale-95 open:opacity-100 open:scale-100 starting:open:!opacity-0 starting:open:!scale-95",
+    },
   },
   compoundVariants: [
     {
       size: ["sm", "md", "lg", "xl"],
-      class: "sm:min-w-sm sm:rounded-sm sm:[--size:3] sm:shadow-sm",
+      class: "sm:min-w-sm sm:max-w-md sm:rounded-sm sm:[--size:3] sm:shadow-sm",
     },
     {
       size: ["md", "lg", "xl"],
-      class: "md:min-w-md md:rounded-md md:[--size:4] md:shadow-md",
+      class: "md:min-w-md md:rounded-md md:max-w-lg md:[--size:4] md:shadow-md",
     },
     {
       size: ["lg", "xl"],
-      class: "lg:min-w-lg lg:rounded-lg lg:[--size:5] lg:shadow-lg",
+      class: "lg:min-w-lg lg:rounded-lg lg:max-w-xl lg:[--size:5] lg:shadow-lg",
     },
     {
       size: ["xl"],
       class: "xl:min-w-xl xl:rounded-xl xl:[--size:6] xl:shadow-xl",
+    },
+    {
+      animation: ["pop"],
+      class: "transition-all transition-discrete",
     },
   ],
   defaultVariants: {
     size: "md",
     position: "center",
     backdrop: "darken",
+    animation: "pop",
   },
 });
 
