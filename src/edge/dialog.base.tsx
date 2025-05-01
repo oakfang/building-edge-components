@@ -1,6 +1,6 @@
 import { Root as Slot } from "@radix-ui/react-slot";
-import { useState, type ComponentProps, type FunctionComponent } from "react";
-import { identifierFor, IdentifierProvider, useIdentifier } from "./utils";
+import { type ComponentProps, type FunctionComponent, useState } from "react";
+import { identifierFor, useIdentifier } from "./utils";
 
 const DIALOG_FEATURE = Symbol("dialog");
 export const Root = identifierFor(DIALOG_FEATURE);
@@ -62,6 +62,9 @@ export const Dialog: FunctionComponent<
       onClose={(e) => {
         if (resetOnClose) setVersion((v) => v + 1);
         onClose?.(e);
+      }}
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) e.currentTarget.close();
       }}
       aria-labelledby={dialogTitle(id)}
       aria-describedby={dialogDescription(id)}

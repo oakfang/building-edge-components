@@ -8,7 +8,7 @@ import {
   use,
   useMemo,
 } from "react";
-import { identifierFor, IdentifierProvider, useIdentifier } from "./utils";
+import { identifierFor, useIdentifier } from "./utils";
 
 const INACTIVE = -1;
 
